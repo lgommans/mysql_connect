@@ -49,6 +49,13 @@
 
 	function mysql_error() {
 		global $__MYSQLSERVERDATA;
+    function mysql_result($result, $rowno, $field=0) {
+        while ($rowno > 0) {
+            $row = $result->fetch_row();
+            $rowno--;
+        }   
+        return $result->fetch_array()[$field];
+    }   
 		return $__MYSQLSERVERDATA['conn']->error;
 	}
 
@@ -91,6 +98,14 @@
 
 		return $result->fetch_array();
 	}
+
+	function mysql_result($result, $rowno, $field=0) {
+		while ($rowno > 0) {
+			$row = $result->fetch_row();
+			$rowno--;
+		}   
+		return $result->fetch_array()[$field];
+	}   
 
 	function mysql_real_escape_string($str) {
 		global $__MYSQLSERVERDATA;
