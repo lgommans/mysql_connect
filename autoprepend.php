@@ -47,16 +47,30 @@
 		return $__MYSQLSERVERDATA['lastresult'];
 	}
 
+	function mysql_unbuffered_query($query) {
+		global $__MYSQLSERVERDATA;
+		$__MYSQLSERVERDATA['lastresult'] = $__MYSQLSERVERDATA['conn']->query($query);
+		return $__MYSQLSERVERDATA['lastresult'];
+	}
+
+	function mysql_errno() {
+		global $__MYSQLSERVERDATA;
+		return $__MYSQLSERVERDATA['conn']->errno;
+	}
+
 	function mysql_error() {
 		global $__MYSQLSERVERDATA;
-    function mysql_result($result, $rowno, $field=0) {
-        while ($rowno > 0) {
-            $row = $result->fetch_row();
-            $rowno--;
-        }   
-        return $result->fetch_array()[$field];
-    }   
 		return $__MYSQLSERVERDATA['conn']->error;
+	}
+
+	function mysql_affected_rows($conn=-1) {
+		global $__MYSQLSERVERDATA;
+
+		if ($conn === -1) {
+			$conn = $__MYSQLSERVERDATA['conn'];
+		}
+
+		return $conn->affected_rows;
 	}
 
 	function mysql_num_rows($result=-1) {
@@ -67,6 +81,10 @@
 		}
 
 		return $result->num_rows;
+	}
+
+	function mysql_free_result($result) {
+		$result->free_result();
 	}
 
 	function mysql_fetch_row($result=-1) {
@@ -99,15 +117,31 @@
 		return $result->fetch_array();
 	}
 
-	function mysql_result($result, $rowno, $field=0) {
-		while ($rowno > 0) {
-			$row = $result->fetch_row();
-			$rowno--;
-		}   
-		return $result->fetch_array()[$field];
-	}   
+	function mysql_insert_id($conn=-1) {
+		global $__MYSQLSERVERDATA;
+
+		if ($conn === -1) {
+			$conn = $__MYSQLSERVERDATA['conn'];
+		}
+
+		return $conn->insert_id;
+	}
+
+	function mysql_escape_string($str) {
+		global $__MYSQLSERVERDATA;
+		return $__MYSQLSERVERDATA['conn']->escape_string($str);
+	}
 
 	function mysql_real_escape_string($str) {
 		global $__MYSQLSERVERDATA;
 		return $__MYSQLSERVERDATA['conn']->escape_string($str);
 	}
+
+	function mysql_result($result, $rowno, $field=0) {
+		while ($rowno > 0) {
+			$row = $result->fetch_row();
+			$rowno--;
+		}
+		return $result->fetch_array()[$field];
+	}
+
