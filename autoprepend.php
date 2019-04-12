@@ -18,10 +18,6 @@
 			$__MYSQLSERVERDATA['port'] = $port;
 		}
 
-		if ($host == 'localhost') {
-			$host = '10.0.0.7';
-		}
-
 		$__MYSQLSERVERDATA['host'] = $host;
 		$__MYSQLSERVERDATA['user'] = $username;
 		$__MYSQLSERVERDATA['pass'] = $password;
