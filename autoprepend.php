@@ -6,6 +6,7 @@
 	function mysql_connect($host, $username, $password) {
 		global $__MYSQLSERVERDATA;
 
+		$persistent = false;
 		if (strpos($host, 'p:') === 0) {
 			$host = substr($host, 2);
 			$persistent = true;
